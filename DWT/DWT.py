@@ -1,5 +1,6 @@
 """
-实现离散小波变换方法，可用于一维、二维数据。
+实现离散小波变换函数，可用于一维、二维数据。
+REF: Wavelet Integrated CNNs for Noise-Robust Image Classification
 """
 import torch
 from torch.autograd import Function
