@@ -1,5 +1,8 @@
-from .. import find_module_using_name
+from cbam_module import *
+from se_module import *
+from wa_module import *
 
+from .. import find_module_using_name
 
 def get_attention_module(attention_type="none"):
 
