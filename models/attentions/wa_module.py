@@ -1,3 +1,4 @@
+import torch
 import torch.nn as nn
 from DWT.DWT_layer import *
 
@@ -12,8 +13,8 @@ class wa_module(nn.Module):
         return "wa"
 
     def forward(self, input):
-        LL, LH, HL, HH = self.dwt(input)
-        output = nn.add(LH, HL)
-        output = nn.softmax(output)
-        output = LL + nn.mul(LL, output)
+        LL, LH, HL, _ = self.dwt(input)
+        output = torch.add(LH, HL)
+        output = nn.Softmax(output)
+        output = LL + torch.mul(LL, output)
         return output
