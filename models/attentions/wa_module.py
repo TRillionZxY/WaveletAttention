@@ -17,4 +17,4 @@ class wa_module(nn.Module):
         output = torch.add(LH, HL)
         output = nn.Softmax(output)
         output = LL + torch.mul(LL, output)
-        return output
+        return output, LL
