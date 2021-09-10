@@ -7,7 +7,7 @@ Reference:
 """
 import functools
 import torch.nn as nn
-from block import BasicBlock, BottleNect
+from .block import BasicBlock, BottleNect
 
 class ResNet(nn.Module):
     def __init__(self, block, num_blocks, num_class=10):
@@ -56,7 +56,7 @@ def ResNetWrapper(num_blocks, num_class=10, block=None, attention_module=None):
     return ResNet(b, num_blocks, num_class=num_class)
 
 
-def ResNet20(num_class=10, block=None, attention_module=None):
+def ResNet18(num_class=10, block=None, attention_module=None):
     return ResNetWrapper(
         num_blocks=[3, 3, 3],
         num_class=num_class,
@@ -64,7 +64,7 @@ def ResNet20(num_class=10, block=None, attention_module=None):
         attention_module=attention_module)
 
 
-def ResNet32(num_class=10, block=None, attention_module=None):
+def ResNet34(num_class=10, block=None, attention_module=None):
     return ResNetWrapper(
         num_blocks=[5, 5, 5],
         num_class=num_class,
@@ -72,40 +72,12 @@ def ResNet32(num_class=10, block=None, attention_module=None):
         attention_module=attention_module)
 
 
-def ResNet56(num_class=10, block=None, attention_module=None):
+def ResNet50(num_class=10, block=None, attention_module=None):
 
     if block == BasicBlock:
         n_blocks = [9, 9, 9]
     elif block == BottleNect:
         n_blocks = [6, 6, 6]
-
-    return ResNetWrapper(
-        num_blocks=n_blocks,
-        num_class=num_class,
-        block=block,
-        attention_module=attention_module)
-
-
-def ResNet110(num_class=10, block=None, attention_module=None):
-
-    if block == BasicBlock:
-        n_blocks = [18, 18, 18]
-    elif block == BottleNect:
-        n_blocks = [12, 12, 12]
-
-    return ResNetWrapper(
-        num_blocks=n_blocks,
-        num_class=num_class,
-        block=block,
-        attention_module=attention_module)
-
-
-def ResNet164(num_class=10, block=None, attention_module=None):
-
-    if block == BasicBlock:
-        n_blocks = [27, 27, 27]
-    elif block == BottleNect:
-        n_blocks = [18, 18, 18]
 
     return ResNetWrapper(
         num_blocks=n_blocks,
