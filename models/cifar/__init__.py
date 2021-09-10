@@ -1,9 +1,12 @@
 import functools
 from ..attentions import get_attention_module
 from .block import BasicBlock, BottleNect
+from .resnet import ResNet18, ResNet34, ResNet50
 
 model_dict = {
-
+    "resnet18": ResNet18, 
+    "resnet34": ResNet34, 
+    "resnet50": ResNet50,
 }
 
 
