@@ -1,8 +1,8 @@
 # WiSANet
 
 ## Our environments and toolkits
-* OS: Ubuntu  
-* Python: 3.8.0  
+* OS: Ubuntu 18.04.5  
+* Python: 3.8  
 * Toolkit: PyTorch 1.8.0  
 * CUDA: 11.0  
 * GPU: Tesla V100  
