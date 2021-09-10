@@ -179,8 +179,7 @@ def main(args):
                           momentum=args.beta1, weight_decay=args.weight_decay)
 
     if args.resume:
-        net, optimizer, best_acc, start_epoch = load_checkpoint(
-            args, net, optimizer)
+        net, optimizer, best_acc, start_epoch = load_checkpoint(args, net, optimizer)
     else:
         start_epoch = 0
         best_acc = 0
@@ -195,17 +194,14 @@ def main(args):
     args.log_file.write("Attention Module - " + args.attention_type + "\n")
     args.log_file.write("Params - %.6fM" % (params / 1e6) + "\n")
     args.log_file.write("FLOPs - %.6fG" % (flops / 1e9) + "\n")
-    args.log_file.write(
-        "--------------------------------------------------" + "\n")
+    args.log_file.write("--------------------------------------------------" + "\n")
 
     if len(args.gpu_ids) > 0:
+        # multi-GPUs
         net.to(args.gpu_ids[0])
-        net = torch.nn.DataParallel(net, args.gpu_ids)  # multi-GPUs
+        net = torch.nn.DataParallel(net, args.gpu_ids)
 
     for epoch in range(start_epoch, args.num_epoch):
-        # if args.wrn:
-        # adjust_learning_rate_wrn(optimizer, epoch, args.warmup)
-        # else:
         adjust_learning_rate(optimizer, epoch, args.warmup)
 
         train(net, optimizer, epoch, train_loader, args)
@@ -224,8 +220,7 @@ def main(args):
 
         net.to(args.device)
 
-        args.log_file.write(
-            "--------------------------------------------------" + "\n")
+        args.log_file.write("--------------------------------------------------" + "\n")
 
     args.log_file.write("best accuracy %4.2f" % best_acc)
 
@@ -246,9 +241,9 @@ if __name__ == "__main__":
     parser.add_argument("--block_type", type=str, default="basic",
                         help="building block for network, e.g., basic or bottlenect")
     parser.add_argument("--attention_type", type=str, default="none",
-                        help="attention type in building block (possible choices none | se | cbam | simam )")
-    parser.add_argument("--attention_param", type=float, default=4,
-                        help="attention parameter (reduction in CBAM and SE, e_lambda in simam)")
+                        help="attention type in building block (possible choices none | se | cbam | wavelet )")
+    parser.add_argument("--attention_param", type=str, default="4",
+                        help="attention parameter (reduction in CBAM and SE, wavename in wavelet)")
 
     # Dataset settings
     parser.add_argument("--dataset", type=str, default="cifar10",
@@ -277,8 +272,6 @@ if __name__ == "__main__":
                         help="SGD weight decay (default: 5e-4)")
     parser.add_argument("--warmup", action="store_true",
                         help="warmup for deeper network")
-    parser.add_argument("--wrn", action="store_true",
-                        help="wider resnet for training")
 
     # Misc
     parser.add_argument("--seed", type=int, default=1,

@@ -29,10 +29,10 @@ def create_net(args):
 
     if args.attention_type == "se" or args.attention_type == "cbam":
         attention_module = functools.partial(
-            attention_module, reduction=args.attention_param)
+            attention_module, reduction=float(args.attention_param))
     elif args.attention_type == "wa":
         attention_module = functools.partial(
-            attention_module, wavename=args.wavename)
+            attention_module, wavename=args.attention_param)
 
     net = model_dict[args.arch.lower()](
         num_class=args.num_class,
