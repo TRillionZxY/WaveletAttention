@@ -41,7 +41,7 @@ class BasicBlock(nn.Module):
         self.conv2 = conv3x3(out_channels, out_channels * self.EXPANSION, stride=1)
         self.bn2 = nn.BatchNorm2d(out_channels * self.EXPANSION)
 
-        if (self.m_name is not None) and (self.m_name != "wa"):
+        if (attention_module is not None) and (self.m_name != "wa"):
             self.bn2 = nn.Sequential(self.bn2, attention_module(out_channels * self.EXPANSION))
 
         self.shortcut = nn.Sequential()
