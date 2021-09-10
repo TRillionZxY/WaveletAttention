@@ -1,6 +1,6 @@
 import functools
 from ..attentions import get_attention_module
-from block import BasicBlock, BottleNect
+from .block import BasicBlock, BottleNect
 
 model_dict = {
 

@@ -258,8 +258,8 @@ if __name__ == "__main__":
                         help="gpus to use, e.g. 0-3 or 0,1,2,3")
     parser.add_argument("--batch_size", type=int, default=128,
                         help="batch size for training and validation (default: 128)")
-    parser.add_argument("--num_epoch", type=int, default=164,
-                        help="number of epochs to train (default: 164)")
+    parser.add_argument("--num_epoch", type=int, default=160,
+                        help="number of epochs to train (default: 160)")
     parser.add_argument("--resume", default="", type=str,
                         help="path to checkpoint for continous training (default: none)")
     parser.add_argument("--optim", default="SGD",
