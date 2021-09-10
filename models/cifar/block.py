@@ -24,11 +24,11 @@ class BasicBlock(nn.Module):
 
         if attention_module is not None:
             if type(attention_module) == functools.partial:
-                self.module_name = attention_module.func.get_module_name()
+                self.m_name = attention_module.func.get_module_name()
             else:
-                self.module_name = attention_module.get_module_name()
+                self.m_name = attention_module.get_module_name()
 
-        if stride != 1 and self.module_name == "wa":
+        if stride != 1 and self.m_name == "wa":
             self.flag = True
             self.wa = attention_module()
             self.conv1 = conv3x3(in_channels, out_channels, stride=1)
@@ -41,11 +41,11 @@ class BasicBlock(nn.Module):
         self.conv2 = conv3x3(out_channels, out_channels * self.EXPANSION, stride=1)
         self.bn2 = nn.BatchNorm2d(out_channels * self.EXPANSION)
 
-        if (self.module_name is not None) and (self.module_name != "wa"):
+        if (self.m_name is not None) and (self.m_name != "wa"):
             self.bn2 = nn.Sequential(self.bn2, attention_module(out_channels * self.EXPANSION))
 
         self.shortcut = nn.Sequential()
-        if stride != 1 and self.module_name == "wa":
+        if stride != 1 and self.m_name == "wa":
             self.shortcut = nn.Sequential(conv1x1(in_channels, out_channels * self.EXPANSION, stride=1),
                     nn.BatchNorm2d(out_channels * self.EXPANSION))
         elif stride != 1 or in_channels != out_channels * self.EXPANSION:
@@ -84,11 +84,11 @@ class BottleNect(nn.Module):
 
         if attention_module is not None:
             if type(attention_module) == functools.partial:
-                self.module_name = attention_module.func.get_module_name()
+                self.m_name = attention_module.func.get_module_name()
             else:
-                self.module_name = attention_module.get_module_name()
+                self.m_name = attention_module.get_module_name()
 
-        if stride != 1 and self.module_name == "wa":
+        if stride != 1 and self.m_name == "wa":
             self.flag = True
             self.wa = attention_module()
             self.conv2 = conv3x3(in_channels, out_channels, stride=1)
@@ -105,11 +105,11 @@ class BottleNect(nn.Module):
                              self.EXPANSION, stride=1)
         self.bn3 = nn.BatchNorm2d(out_channels * self.EXPANSION)
 
-        if (self.module_name is not None) and (self.module_name != "wa"):
+        if (self.m_name is not None) and (self.m_name != "wa"):
             self.bn3 = nn.Sequential(self.bn2, attention_module(out_channels * self.EXPANSION))
 
         self.shortcut = nn.Sequential()
-        if stride != 1 and self.module_name == "wa":
+        if stride != 1 and self.m_name == "wa":
             self.shortcut = nn.Sequential(conv1x1(in_channels, out_channels * self.EXPANSION, stride=1),
                     nn.BatchNorm2d(out_channels * self.EXPANSION))
         elif stride != 1 or in_channels != out_channels * self.EXPANSION:
