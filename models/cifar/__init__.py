@@ -1,14 +1,18 @@
 import functools
 from ..attentions import get_attention_module
-from .block import BasicBlock, BottleNect
+from .block import BasicBlock, BottleNect, InvertedResidualBlock
 from .resnet import ResNet18, ResNet34, ResNet50
+from .vgg import VGG11_bn, VGG13_bn, VGG16_bn, VGG19_bn
 
 model_dict = {
     "resnet18": ResNet18, 
     "resnet34": ResNet34, 
     "resnet50": ResNet50,
+    "vgg11_bn": VGG11_bn,
+    "vgg13_bn": VGG13_bn,
+    "vgg16_bn": VGG16_bn,
+    "vgg19_bn": VGG19_bn,
 }
-
 
 def get_block(block_type="basic"):
 
@@ -18,6 +22,8 @@ def get_block(block_type="basic"):
         b = BasicBlock
     elif block_type == "bottlenect":
         b = BottleNect
+    elif block_type == "ivrd":
+        b = InvertedResidualBlock
     else:
         raise NotImplementedError(
             'block [%s] is not found for dataset [%s]' % block_type)

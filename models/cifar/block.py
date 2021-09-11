@@ -149,3 +149,60 @@ class BottleNect(nn.Module):
         out += self.shortcut(identity)
 
         return self.relu(out)
+
+# InvertedResidualBlock in MoblieNetV2 for CIFAR
+class InvertedResidualBlock(nn.Module):
+    '''expand + depthwise + pointwise'''
+    def __init__(self, in_planes, out_planes, expansion, stride, attention_module=None):
+        super(InvertedResidualBlock, self).__init__()
+        self.stride = stride
+
+        planes = expansion * in_planes
+        self.conv1 = conv1x1(in_planes, planes, stride=1)
+        self.bn1 = nn.BatchNorm2d(planes)
+        self.conv2 = nn.Conv2d(planes, planes, kernel_size=3, stride=stride, padding=1, groups=planes, bias=False)
+        self.bn2 = nn.BatchNorm2d(planes)
+        self.conv3 = conv1x1(planes, out_planes, stride=1)
+        self.bn3 = nn.BatchNorm2d(out_planes)
+
+        self.relu = nn.ReLU(inplace=True)
+
+        if attention_module is not None:
+            if type(attention_module) == functools.partial:
+                m_name = attention_module.func.get_module_name()
+            else:
+                m_name = attention_module.get_module_name()
+
+            if m_name == "simam":
+                self.conv2 = nn.Sequential(
+                    self.conv2,
+                    attention_module(planes)
+                )
+            else:
+                self.bn3 = nn.Sequential(
+                    self.bn3,
+                    attention_module(out_planes)
+                )
+
+        self.shortcut = nn.Sequential()
+        if stride == 1 and in_planes != out_planes:
+            self.shortcut = nn.Sequential(
+                conv1x1(in_planes, out_planes, stride=1),
+                nn.BatchNorm2d(out_planes),
+            )
+
+    def forward(self, x):
+        out = self.conv1(x)
+        out = self.bn1(out)
+        out = self.relu(out)
+        
+        out = self.conv2(out)
+        out = self.bn2(out)
+        out = self.relu(out)
+
+        out = self.conv3(out)
+        out = self.bn3(out)
+
+        out = out + self.shortcut(x) if self.stride == 1 else out
+        
+        return out
