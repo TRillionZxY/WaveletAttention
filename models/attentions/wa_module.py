@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from DWT.DWT_layer import *
+from DWT import DWT_2D
 
 
 class wa_module(nn.Module):
