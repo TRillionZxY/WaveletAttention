@@ -6,7 +6,7 @@ def find_module_using_name(module_name):
     if module_name == "none":
         return None
 
-    module_filename = "networks.attentions." + module_name + "_module"
+    module_filename = "models.attentions." + module_name + "_module"
     modellib = importlib.import_module(module_filename)
 
     module = None
