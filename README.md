@@ -5,7 +5,7 @@
 * Python: 3.8  
 * Toolkit: PyTorch 1.8.0  
 * CUDA: 11.0  
-* GPU: Tesla V100  
+* GPU: 1080Ti  
 * [PyWavelets](https://github.com/PyWavelets/pywt)  
 * [thop](https://github.com/Lyken17/pytorch-OpCounter)  
 
