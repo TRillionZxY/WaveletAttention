@@ -84,3 +84,30 @@ def ResNet50(num_class=10, block=None, attention_module=None):
         num_class=num_class,
         block=block,
         attention_module=attention_module)
+
+def ResNet110(num_class=10, block=None, attention_module=None):
+    
+    if block == BasicBlock:
+        n_blocks = [18, 18, 18]
+    elif block == BottleNect:
+        n_blocks = [12, 12, 12]
+
+    return ResNetWrapper(
+            num_blocks = n_blocks, 
+            num_class = num_class, 
+            block = block,
+            attention_module = attention_module)
+
+
+def ResNet164(num_class=10, block=None, attention_module=None):
+    
+    if block == BasicBlock:
+        n_blocks = [27, 27, 27]
+    elif block == BottleNect:
+        n_blocks = [18, 18, 18]
+
+    return ResNetWrapper(
+            num_blocks = n_blocks,  
+            num_class = num_class, 
+            block = block,
+            attention_module = attention_module)

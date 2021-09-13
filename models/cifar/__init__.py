@@ -2,16 +2,15 @@ import functools
 from ..attentions import get_attention_module
 from .block import BasicBlock, BottleNect, InvertedResidualBlock
 from .resnet import ResNet18, ResNet34, ResNet50
-from .vgg import VGG11_bn, VGG13_bn, VGG16_bn, VGG19_bn
+from .vgg import VGG16_bn
+from .mobilenetv2 import MobileNetV2Wrapper
 
 model_dict = {
     "resnet18": ResNet18, 
     "resnet34": ResNet34, 
     "resnet50": ResNet50,
-    "vgg11_bn": VGG11_bn,
-    "vgg13_bn": VGG13_bn,
     "vgg16_bn": VGG16_bn,
-    "vgg19_bn": VGG19_bn,
+    "mobilenetv2": MobileNetV2Wrapper,
 }
 
 def get_block(block_type="basic"):
