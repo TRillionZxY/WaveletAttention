@@ -17,7 +17,7 @@ cfg = {
 
 class VGG(nn.Module):
 
-    def __init__(self, features, num_class=100):
+    def __init__(self, features, num_class=10, attention_module=None):
         super().__init__()
         self.features = features
 
@@ -38,7 +38,7 @@ class VGG(nn.Module):
 
         return output
 
-def make_layers(cfg, batch_norm=False):
+def make_layers(cfg, batch_norm=True):
     layers = []
 
     input_channel = 3
@@ -57,14 +57,29 @@ def make_layers(cfg, batch_norm=False):
 
     return nn.Sequential(*layers)
 
-def VGG11_bn():
-    return VGG(make_layers(cfg['A'], batch_norm=True))
+def VGGWrapper(num_class=10, features=None, attention_module=None):
+    return VGG(num_class=num_class, features=features, attention_module=attention_module)
 
-def VGG13_bn():
-    return VGG(make_layers(cfg['B'], batch_norm=True))
+def VGG11_bn(num_class=10, block=None, attention_module=None):
+    return VGGWrapper(
+        num_class=num_class,
+        features=make_layers(cfg['A']), 
+        attention_module=attention_module)
 
-def VGG16_bn():
-    return VGG(make_layers(cfg['D'], batch_norm=True))
+def VGG13_bn(num_class=10, block=None, attention_module=None):
+    return VGGWrapper(
+        num_class=num_class,
+        features=make_layers(cfg['B']), 
+        attention_module=attention_module)
 
-def VGG19_bn():
-    return VGG(make_layers(cfg['E'], batch_norm=True))
+def VGG16_bn(num_class=10, block=None, attention_module=None):
+    return VGGWrapper(
+        num_class=num_class,
+        features=make_layers(cfg['D']), 
+        attention_module=attention_module)
+
+def VGG19_bn(num_class=10, block=None, attention_module=None):
+    return VGGWrapper(
+        num_class=num_class,
+        features=make_layers(cfg['E']), 
+        attention_module=attention_module)

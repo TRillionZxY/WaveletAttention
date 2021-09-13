@@ -24,6 +24,8 @@ def get_block(block_type="basic"):
         b = BottleNect
     elif block_type == "ivrd":
         b = InvertedResidualBlock
+    elif block_type == "vgg":
+        b = "vgg"
     else:
         raise NotImplementedError(
             'block [%s] is not found for dataset [%s]' % block_type)
