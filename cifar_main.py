@@ -219,8 +219,7 @@ def main(args):
         }, is_best, epoch, save_path=args.ckpt)
 
         net.to(args.device)
-        print(next(net.parameters()).is_cuda)
-
+        
         args.log_file.write("--------------------------------------------------" + "\n")
 
     args.log_file.write("best accuracy %4.2f" % best_acc)
