@@ -196,9 +196,10 @@ def main(args):
     args.log_file.write("FLOPs - %.6fG" % (flops / 1e9) + "\n")
     args.log_file.write("--------------------------------------------------" + "\n")
 
+    net.to(args.gpu_ids[0])
+
+    # multi-GPUs
     if len(args.gpu_ids) > 1:
-        # multi-GPUs
-        net.to(args.gpu_ids[0])
         net = torch.nn.DataParallel(net, args.gpu_ids)
 
     for epoch in range(start_epoch, args.num_epoch):
