@@ -43,23 +43,24 @@ class DWTFunction_2D(Function):
     def forward(ctx, input, matrix_Low_0, matrix_Low_1, matrix_High_0, matrix_High_1):
         ctx.save_for_backward(matrix_Low_0, matrix_Low_1,
                               matrix_High_0, matrix_High_1)
-        L = torch.matmul(matrix_Low_0, input).cuda()
-        H = torch.matmul(matrix_High_0, input).cuda()
-        LL = torch.matmul(L, matrix_Low_1).cuda()
-        LH = torch.matmul(L, matrix_High_1).cuda()
-        HL = torch.matmul(H, matrix_Low_1).cuda()
-        HH = torch.matmul(H, matrix_High_1).cuda()
+        print(matrix_Low_0.is_cuda, matrix_High_0.is_cuda)
+        L = torch.matmul(matrix_Low_0, input)
+        H = torch.matmul(matrix_High_0, input)
+        LL = torch.matmul(L, matrix_Low_1)
+        LH = torch.matmul(L, matrix_High_1)
+        HL = torch.matmul(H, matrix_Low_1)
+        HH = torch.matmul(H, matrix_High_1)
         return LL, LH, HL, HH
 
     @staticmethod
     def backward(ctx, grad_LL, grad_LH, grad_HL, grad_HH):
         matrix_Low_0, matrix_Low_1, matrix_High_0, matrix_High_1 = ctx.saved_variables
         grad_L = torch.add(torch.matmul(grad_LL, matrix_Low_1.t()),
-                           torch.matmul(grad_LH, matrix_High_1.t())).cuda()
+                           torch.matmul(grad_LH, matrix_High_1.t()))
         grad_H = torch.add(torch.matmul(grad_HL, matrix_Low_1.t()),
-                           torch.matmul(grad_HH, matrix_High_1.t())).cuda()
+                           torch.matmul(grad_HH, matrix_High_1.t()))
         grad_input = torch.add(torch.matmul(
-            matrix_Low_0.t(), grad_L), torch.matmul(matrix_High_0.t(), grad_H)).cuda()
+            matrix_Low_0.t(), grad_L), torch.matmul(matrix_High_0.t(), grad_H))
         return grad_input, None, None, None, None
 
 
