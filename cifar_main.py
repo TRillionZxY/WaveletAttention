@@ -184,16 +184,16 @@ def main(args):
         start_epoch = 0
         best_acc = 0
 
-    x = torch.randn(1, 3, 32, 32)
-    flops, params = profile(net, inputs=(x,))
+    # x = torch.randn(1, 3, 32, 32)
+    # flops, params = profile(net, inputs=(x,))
 
-    print("Number of params: %.6fM" % (params / 1e6))
-    print("Number of FLOPs: %.6fG" % (flops / 1e9))
+    # print("Number of params: %.6fM" % (params / 1e6))
+    # print("Number of FLOPs: %.6fG" % (flops / 1e9))
 
     args.log_file.write("Network - " + args.arch + "\n")
     args.log_file.write("Attention Module - " + args.attention_type + "\n")
-    args.log_file.write("Params - %.6fM" % (params / 1e6) + "\n")
-    args.log_file.write("FLOPs - %.6fG" % (flops / 1e9) + "\n")
+    # args.log_file.write("Params - %.6fM" % (params / 1e6) + "\n")
+    # args.log_file.write("FLOPs - %.6fG" % (flops / 1e9) + "\n")
     args.log_file.write("--------------------------------------------------" + "\n")
 
     net.to(args.gpu_ids[0])
