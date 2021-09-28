@@ -43,7 +43,6 @@ class DWTFunction_2D(Function):
     def forward(ctx, input, matrix_Low_0, matrix_Low_1, matrix_High_0, matrix_High_1):
         ctx.save_for_backward(matrix_Low_0, matrix_Low_1,
                               matrix_High_0, matrix_High_1)
-        print(matrix_Low_0.is_cuda, matrix_High_0.is_cuda)
         L = torch.matmul(matrix_Low_0, input)
         H = torch.matmul(matrix_High_0, input)
         LL = torch.matmul(L, matrix_Low_1)
