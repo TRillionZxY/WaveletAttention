@@ -1,3 +1,5 @@
+from os import name
+from cifar_main import main
 import torch
 import torch.nn as nn
 from DWT import DWT_2D
@@ -19,3 +21,7 @@ class wa_module(nn.Module):
         LL, LH, HL, _ = self.dwt(input)
         output = self.F(LL, self.delta(LL, self.softmax(self.F(LH, HL))))
         return output, LL
+
+if  __name__ == '__main__':
+    input = torch.randn(1, 3, 32, 32)
+    print(wa_module(input))
