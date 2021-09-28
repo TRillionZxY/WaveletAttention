@@ -316,10 +316,10 @@ class DWT_2D(Module):
         :return: the low-frequency and high-frequency components of the input 2D data
         """
         assert len(input.size()) == 4
-        input.to(torch.device("cuda:0"))
-        assert input.is_cuda
-        self.input_height = input.size()[-2]
-        self.input_width = input.size()[-1]
+        self.input = input.cuda()
+        assert self.input.is_cuda
+        self.input_height = self.input.size()[-2]
+        self.input_width = self.input.size()[-1]
         self.get_matrix()
         return DWTFunction_2D.apply(input, self.matrix_low_0, self.matrix_low_1, self.matrix_high_0, self.matrix_high_1)
 
