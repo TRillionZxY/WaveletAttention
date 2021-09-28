@@ -13,6 +13,7 @@ import torch.optim as optim
 import torch.backends.cudnn as cudnn
 import torch.nn.functional as F
 from torchvision import datasets, transforms
+from torchsummary import summary
 # models
 from thop import profile
 from utils.util import AverageMeter, ProgressMeter, save_checkpoint, load_checkpoint, accuracy, parse_gpus
@@ -173,7 +174,7 @@ def main(args):
 
     net = create_net(args)
 
-    args.log_file.write(net + "\n")
+    args.log_file.write(summary(net, (3, 32, 32)) + "\n")
 
     optimizer = optim.SGD(net.parameters(), lr=args.base_lr,
                           momentum=args.beta1, weight_decay=args.weight_decay)
