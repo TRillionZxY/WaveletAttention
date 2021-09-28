@@ -7,7 +7,7 @@ class wa_module(nn.Module):
     def __init__(self, wavename='haar'):
         super(wa_module, self).__init__()
         self.dwt = DWT_2D(wavename=wavename)
-
+        
     @staticmethod
     def get_module_name():
         return "wa"
