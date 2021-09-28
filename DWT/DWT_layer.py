@@ -321,7 +321,7 @@ class DWT_2D(Module):
         self.input_height = self.input.size()[-2]
         self.input_width = self.input.size()[-1]
         self.get_matrix()
-        return DWTFunction_2D.apply(input, self.matrix_low_0, self.matrix_low_1, self.matrix_high_0, self.matrix_high_1)
+        return DWTFunction_2D.apply(self.input, self.matrix_low_0, self.matrix_low_1, self.matrix_high_0, self.matrix_high_1)
 
 
 class IDWT_2D(Module):
