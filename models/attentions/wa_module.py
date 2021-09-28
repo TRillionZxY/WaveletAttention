@@ -8,7 +8,7 @@ from DWT import DWT_2D
 class wa_module(nn.Module):
     def __init__(self, wavename='haar'):
         super(wa_module, self).__init__()
-        self.dwt = DWT_2D(wavename=wavename)
+        self.dwt = DWT_2D(wavename=wavename).cuda()
         self.softmax = nn.Softmax2d()
 
     @staticmethod
