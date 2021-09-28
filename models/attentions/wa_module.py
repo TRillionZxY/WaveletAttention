@@ -14,7 +14,7 @@ class wa_module(nn.Module):
 
     def forward(self, input):
         LL, LH, HL, _ = self.dwt(input)
-        output = torch.add(LH, HL)
-        output = torch.Tensor(nn.Softmax(output))
-        output = LL + torch.mul(LL, output)
+        output = torch.add(LH, HL).cuda()
+        output = torch.Tensor(nn.Softmax(output)).cuda()
+        output = LL + torch.mul(LL, output).cuda()
         return output, LL
