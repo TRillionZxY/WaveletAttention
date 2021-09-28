@@ -174,8 +174,6 @@ def main(args):
 
     net = create_net(args)
 
-    args.log_file.write(summary(net, (3, 32, 32)) + "\n")
-
     optimizer = optim.SGD(net.parameters(), lr=args.base_lr,
                           momentum=args.beta1, weight_decay=args.weight_decay)
 
@@ -198,6 +196,7 @@ def main(args):
     args.log_file.write("--------------------------------------------------" + "\n")
 
     net.to(args.gpu_ids[0])
+    args.log_file.write(summary(net, (3, 32, 32)) + "\n")
 
     # multi-GPUs
     if len(args.gpu_ids) > 1:
