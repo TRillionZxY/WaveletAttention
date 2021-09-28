@@ -211,13 +211,13 @@ def main(args):
         is_best = epoch_acc > best_acc
         best_acc = max(epoch_acc, best_acc)
 
-        save_checkpoint({
-            "epoch": epoch + 1,
-            "arch": args.arch,
-            "state_dict": net.module.state_dict(),
-            "best_acc": best_acc,
-            "optimizer": optimizer.state_dict(),
-        }, is_best, epoch, save_path=args.ckpt)
+        # save_checkpoint({
+        #     "epoch": epoch + 1,
+        #     "arch": args.arch,
+        #     "state_dict": net.module.cpu().state_dict(),
+        #     "best_acc": best_acc,
+        #     "optimizer": optimizer.state_dict(),
+        # }, is_best, epoch, save_path=args.ckpt)
 
         net.to(args.device)
         
