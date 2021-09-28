@@ -173,7 +173,7 @@ def main(args):
 
     net = create_net(args)
 
-    print(net)
+    args.log_file.write(net + "\n")
 
     optimizer = optim.SGD(net.parameters(), lr=args.base_lr,
                           momentum=args.beta1, weight_decay=args.weight_decay)
