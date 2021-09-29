@@ -48,8 +48,8 @@ class ResNet(nn.Module):
 
 def ResNetWrapper(num_blocks, num_class=10, block=None, attention_module=None):
 
-    def b(in_planes, planes, stride):
-        return block(in_planes, planes, stride, attention_module=attention_module)
+    def b(in_planes, planes, stride, TT):
+        return block(in_planes, planes, stride, TT, attention_module=attention_module)
 
     return ResNet(b, num_blocks, num_class=num_class)
 
