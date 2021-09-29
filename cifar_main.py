@@ -13,7 +13,7 @@ import torch.optim as optim
 import torch.backends.cudnn as cudnn
 import torch.nn.functional as F
 from torchvision import datasets, transforms
-from torchsummary import summary
+from torchinfo import summary
 # models
 from thop import profile
 from utils.util import AverageMeter, ProgressMeter, save_checkpoint, load_checkpoint, accuracy, parse_gpus
@@ -200,7 +200,10 @@ def main(args):
         net.to(args.gpu_ids[0])
         net = torch.nn.DataParallel(net, args.gpu_ids)
 
-    args.log_file.write(summary(net, (3, 32, 32)))
+    with open(os.path.join(args.ckpt, "structure.txt"), mode="wt") as f:
+        print(summary(net, input_size=(1, 3, 32, 32)), file=f)
+
+    f.close()
 
     for epoch in range(start_epoch, args.num_epoch):
         adjust_learning_rate(optimizer, epoch, args.warmup)
