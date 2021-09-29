@@ -1,4 +1,3 @@
-from os import name
 from cifar_main import main
 import torch
 import torch.nn as nn
@@ -17,8 +16,9 @@ class wa_module(nn.Module):
 
     def forward(self, input):
         LL, LH, HL, _ = self.dwt(input)
-        output = torch.add(LH, HL).cuda()
-        output = self.softmax(output)
-        output = torch.mul(LL, output).cuda()
-        output = torch.add(LL, output).cuda()
+        output = LL
+
+        x_high = self.softmax(torch.add(LH, HL))
+        AttMap = torch.mul(output, x_high)
+        output = torch.add(output, AttMap)
         return output, LL

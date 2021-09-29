@@ -189,18 +189,18 @@ def main(args):
     # print("Number of params: %.6fM" % (params / 1e6))
     # print("Number of FLOPs: %.6fG" % (flops / 1e9))
 
-    args.log_file.write("Network - " + args.arch + "\n")
-    args.log_file.write("Attention Module - " + args.attention_type + "\n")
     # args.log_file.write("Params - %.6fM" % (params / 1e6) + "\n")
     # args.log_file.write("FLOPs - %.6fG" % (flops / 1e9) + "\n")
+    args.log_file.write("Network - " + args.arch + "\n")
+    args.log_file.write("Attention Module - " + args.attention_type + "\n")
     args.log_file.write("--------------------------------------------------" + "\n")
 
-    net.to(args.gpu_ids[0])
-    args.log_file.write(summary(net, (3, 32, 32)) + "\n")
-
     # multi-GPUs
-    if len(args.gpu_ids) > 1:
+    if len(args.gpu_ids) > 0:
+        net.to(args.gpu_ids[0])
         net = torch.nn.DataParallel(net, args.gpu_ids)
+
+    args.log_file.write(summary(net, (3, 32, 32)) + "\n")
 
     for epoch in range(start_epoch, args.num_epoch):
         adjust_learning_rate(optimizer, epoch, args.warmup)
