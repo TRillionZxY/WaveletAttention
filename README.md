@@ -8,7 +8,7 @@
 * GPU: 1080Ti  
 * [PyWavelets](https://github.com/PyWavelets/pywt)  
 * [torchinfo](https://github.com/TylerYep/torchinfo)  
-* [thop](https://github.com/Lyken17/pytorch-OpCounter)  
+* [thop](https://github.com/Lyken17/pytorch-OpCounter)(Optional)  
 
 
 ## Abstract
