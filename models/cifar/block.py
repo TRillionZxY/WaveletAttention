@@ -33,8 +33,7 @@ class BasicBlock(nn.Module):
                 self.flag = True
                 self.wa = attention_module()
                 self.conv1 = conv3x3(in_channels, out_channels, stride=1)
-                self.shortcut = nn.Sequential(conv1x1(in_channels, out_channels * self.EXPANSION, stride=1),
-                    nn.BatchNorm2d(out_channels * self.EXPANSION))
+                
             else:
                 self.conv1 = conv3x3(in_channels, out_channels, stride=stride)
         else:
@@ -49,10 +48,13 @@ class BasicBlock(nn.Module):
         if attention_module is not None:
             if m_name != "wa":
                 self.bn2 = nn.Sequential(self.bn2, attention_module(out_channels * self.EXPANSION))
-                  
-            if stride != 1 or in_channels != out_channels * self.EXPANSION:
-                self.shortcut = nn.Sequential(conv1x1(in_channels, out_channels * self.EXPANSION, stride=stride),
-                        nn.BatchNorm2d(out_channels * self.EXPANSION))
+                if stride != 1 or in_channels != out_channels * self.EXPANSION:
+                    self.shortcut = nn.Sequential(conv1x1(in_channels, out_channels * self.EXPANSION, stride=stride),
+                            nn.BatchNorm2d(out_channels * self.EXPANSION))
+            else:
+                if stride != 1 or in_channels != out_channels * self.EXPANSION:
+                    self.shortcut = nn.Sequential(conv1x1(in_channels, out_channels * self.EXPANSION, stride=1), 
+                            nn.BatchNorm2d(out_channels * self.EXPANSION))
         else:
             if stride != 1 or in_channels != out_channels * self.EXPANSION:
                 self.shortcut = nn.Sequential(conv1x1(in_channels, out_channels * self.EXPANSION, stride=stride),
