@@ -7,6 +7,7 @@
 * CUDA: 11.0  
 * GPU: 1080Ti  
 * [PyWavelets](https://github.com/PyWavelets/pywt)  
+* [torchinfo](https://github.com/TylerYep/torchinfo)  
 * [thop](https://github.com/Lyken17/pytorch-OpCounter)  
 
 
