@@ -17,7 +17,7 @@ class BasicBlock(nn.Module):
 
     EXPANSION = 1
 
-    def __init__(self, in_channels, out_channels, stride=1, attention_module=None):
+    def __init__(self, in_channels, out_channels, stride=1, T=False, attention_module=None):
         super(BasicBlock, self).__init__()
 
         self.flag = False
@@ -28,11 +28,10 @@ class BasicBlock(nn.Module):
             else:
                 m_name = attention_module.get_module_name()
 
-            if stride != 1 and m_name == "wa":
+            if m_name == "wa" and stride != 1 and T == True:
                 self.flag = True
                 self.wa = attention_module()
                 self.conv1 = conv3x3(in_channels, out_channels, stride=1)
-                
             else:
                 self.conv1 = conv3x3(in_channels, out_channels, stride=stride)
         else:
@@ -51,9 +50,13 @@ class BasicBlock(nn.Module):
                 if stride != 1 or in_channels != out_channels * self.EXPANSION:
                     self.shortcut = nn.Sequential(conv1x1(in_channels, out_channels * self.EXPANSION, stride=stride),
                             nn.BatchNorm2d(out_channels * self.EXPANSION))
-            else:
+            elif m_name == "wa" and T == True:
                 if stride != 1 or in_channels != out_channels * self.EXPANSION:
                     self.shortcut = nn.Sequential(conv1x1(in_channels, out_channels * self.EXPANSION, stride=1), 
+                            nn.BatchNorm2d(out_channels * self.EXPANSION))
+            else:
+                if stride != 1 or in_channels != out_channels * self.EXPANSION:
+                    self.shortcut = nn.Sequential(conv1x1(in_channels, out_channels * self.EXPANSION, stride=stride),
                             nn.BatchNorm2d(out_channels * self.EXPANSION))
         else:
             if stride != 1 or in_channels != out_channels * self.EXPANSION:
@@ -89,7 +92,6 @@ class BottleNect(nn.Module):
         super(BottleNect, self).__init__()
 
         self.flag = False
-        self.shortcut = nn.Sequential()
 
         if attention_module is not None:
             if type(attention_module) == functools.partial:
@@ -101,8 +103,6 @@ class BottleNect(nn.Module):
                 self.flag = True
                 self.wa = attention_module()
                 self.conv2 = conv3x3(in_channels, out_channels, stride=1)
-                self.shortcut = nn.Sequential(conv1x1(in_channels, out_channels * self.EXPANSION, stride=1),
-                    nn.BatchNorm2d(out_channels * self.EXPANSION))
             else:
                 self.conv2 = conv3x3(in_channels, out_channels, stride=stride)
         else:
@@ -117,13 +117,17 @@ class BottleNect(nn.Module):
         self.conv3 = conv1x1(out_channels, out_channels * self.EXPANSION, stride=1)
         self.bn3 = nn.BatchNorm2d(out_channels * self.EXPANSION)
 
+        self.shortcut = nn.Sequential()
         if attention_module is not None:
             if m_name != "wa":
                 self.bn2 = nn.Sequential(self.bn2, attention_module(out_channels * self.EXPANSION))
-                  
-            if stride != 1 or in_channels != out_channels * self.EXPANSION:
-                self.shortcut = nn.Sequential(conv1x1(in_channels, out_channels * self.EXPANSION, stride=stride),
-                        nn.BatchNorm2d(out_channels * self.EXPANSION))
+                if stride != 1 or in_channels != out_channels * self.EXPANSION:
+                    self.shortcut = nn.Sequential(conv1x1(in_channels, out_channels * self.EXPANSION, stride=stride),
+                            nn.BatchNorm2d(out_channels * self.EXPANSION))
+            else:
+                if stride != 1 or in_channels != out_channels * self.EXPANSION:
+                    self.shortcut = nn.Sequential(conv1x1(in_channels, out_channels * self.EXPANSION, stride=1),
+                            nn.BatchNorm2d(out_channels * self.EXPANSION))
         else:
             if stride != 1 or in_channels != out_channels * self.EXPANSION:
                 self.shortcut = nn.Sequential(conv1x1(in_channels, out_channels * self.EXPANSION, stride=stride),

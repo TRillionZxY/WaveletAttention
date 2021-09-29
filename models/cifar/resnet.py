@@ -5,6 +5,7 @@ Reference:
 [1] Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun
     Deep Residual Learning for Image Recognition. arXiv:1512.03385
 """
+from torch._C import T
 import torch.nn as nn
 from .block import BasicBlock, BottleNect
 
@@ -15,24 +16,23 @@ class ResNet(nn.Module):
         self.num_class = num_class
         self.in_channels = num_filters = 16
 
-        self.conv1 = nn.Conv2d(3, self.in_channels,
-                               kernel_size=3, stride=1, padding=1, bias=False)
+        self.conv1 = nn.Conv2d(3, self.in_channels, kernel_size=3, stride=1, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(self.in_channels)
         self.relu = nn.ReLU(inplace=True)
 
         self.layer1 = self._make_layer(block, self.in_channels, num_blocks[0], stride=1)
-        self.layer2 = self._make_layer(block, int(num_filters*2), num_blocks[1], stride=2)
+        self.layer2 = self._make_layer(block, int(num_filters*2), num_blocks[1], stride=2, T=True)
         self.layer3 = self._make_layer(block, int(num_filters*4), num_blocks[2], stride=2)
 
         self.avgpool = nn.AdaptiveAvgPool2d(1)
         self.linear = nn.Linear(
             int(num_filters*4*block(16, 16, 1).EXPANSION), num_class)
 
-    def _make_layer(self, block, out_channels, num_blocks, stride):
+    def _make_layer(self, block, out_channels, num_blocks, stride, T):
         strides = [stride] + [1]*(num_blocks-1)
         layers = []
         for stride in strides:
-            layers.append(block(self.in_channels, out_channels, stride))
+            layers.append(block(self.in_channels, out_channels, stride, T))
             self.in_channels = int(out_channels * block(16, 16, 1).EXPANSION)
         return nn.Sequential(*layers)
 
