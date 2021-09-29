@@ -200,7 +200,7 @@ def main(args):
         net.to(args.gpu_ids[0])
         net = torch.nn.DataParallel(net, args.gpu_ids)
 
-    args.log_file.write(summary(net, (3, 32, 32)) + "\n")
+    args.log_file.write(summary(net, (3, 32, 32)))
 
     for epoch in range(start_epoch, args.num_epoch):
         adjust_learning_rate(optimizer, epoch, args.warmup)
