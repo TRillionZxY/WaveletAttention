@@ -17,7 +17,7 @@ class BasicBlock(nn.Module):
 
     EXPANSION = 1
 
-    def __init__(self, in_channels, out_channels, stride=1, TT=False, attention_module=None):
+    def __init__(self, in_channels, out_channels, stride=1, attention_module=None):
         super(BasicBlock, self).__init__()
 
         self.flag = False
@@ -28,7 +28,7 @@ class BasicBlock(nn.Module):
             else:
                 m_name = attention_module.get_module_name()
 
-            if m_name == "wa" and stride != 1 and TT == True:
+            if m_name == "wa" and stride != 1 and in_channels == 16:
                 self.flag = True
                 self.wa = attention_module()
                 self.conv1 = conv3x3(in_channels, out_channels, stride=1)
@@ -50,7 +50,7 @@ class BasicBlock(nn.Module):
                 if stride != 1 or in_channels != out_channels * self.EXPANSION:
                     self.shortcut = nn.Sequential(conv1x1(in_channels, out_channels * self.EXPANSION, stride=stride),
                             nn.BatchNorm2d(out_channels * self.EXPANSION))
-            elif m_name == "wa" and TT == True:
+            elif m_name == "wa" and in_channels == 16:
                 if stride != 1 or in_channels != out_channels * self.EXPANSION:
                     self.shortcut = nn.Sequential(conv1x1(in_channels, out_channels * self.EXPANSION, stride=1), 
                             nn.BatchNorm2d(out_channels * self.EXPANSION))
