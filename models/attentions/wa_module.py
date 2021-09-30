@@ -21,4 +21,4 @@ class wa_module(nn.Module):
         x_high = self.softmax(torch.add(LH, HL))
         AttMap = torch.mul(output, x_high)
         output = torch.add(output, AttMap)
-        return output, LL
+        return output
