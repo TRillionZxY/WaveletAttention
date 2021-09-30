@@ -96,25 +96,29 @@ def make_layers(cfg, batch_norm=True, attention_module=None):
 
     return nn.Sequential(*layers)
 
-def VGGWrapper(num_class=10, features=None):
+def VGGWrapper(num_class=10, features=None, block=None):
     return VGG(num_class=num_class, features=features)
 
-def VGG11_bn(num_class=10, attention_module=None):
+def VGG11_bn(num_class=10, block=None, attention_module=None):
     return VGGWrapper(
         num_class=num_class,
+        block=block,
         features=make_layers(cfg['A'], attention_module=attention_module))
 
-def VGG13_bn(num_class=10, attention_module=None):
+def VGG13_bn(num_class=10, block=None, attention_module=None):
     return VGGWrapper(
         num_class=num_class,
+        block=block,
         features=make_layers(cfg['B'], attention_module=attention_module))
 
-def VGG16_bn(num_class=10, attention_module=None):
+def VGG16_bn(num_class=10, block=None, attention_module=None):
     return VGGWrapper(
         num_class=num_class,
+        block=block,
         features=make_layers(cfg['D'], attention_module=attention_module))
 
-def VGG19_bn(num_class=10, attention_module=None):
+def VGG19_bn(num_class=10, block=None, attention_module=None):
     return VGGWrapper(
         num_class=num_class,
+        block=block,
         features=make_layers(cfg['E'], attention_module=attention_module))
