@@ -245,7 +245,7 @@ if __name__ == "__main__":
     parser.add_argument("--block_type", type=str, default="basic",
                         help="building block for network (possible choices basic|bottlenect|ivrd|vgg")
     parser.add_argument("--attention_type", type=str, default="none",
-                        help="attention type in building block (possible choices none|se|cbam|wavelet )")
+                        help="attention type in building block (possible choices none|se|cbam|wa)")
     parser.add_argument("--attention_param", type=str, default="4",
                         help="attention parameter (reduction in CBAM and SE, wavename in wavelet)")
 
