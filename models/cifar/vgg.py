@@ -17,7 +17,7 @@ cfg = {
 
 class VGG(nn.Module):
 
-    def __init__(self, features, num_class=10):
+    def __init__(self, features, num_class=10, init_weights=True):
         super().__init__()
         self.features = features
 
@@ -30,6 +30,25 @@ class VGG(nn.Module):
             nn.Dropout(),
             nn.Linear(4096, num_class)
         )
+
+        if init_weights:
+            self._initialize_weights()
+
+    def _initialize_weights(self):
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                if(m.in_channels != m.out_channels or m.out_channels != m.groups or m.bias is not None):
+                    # don't want to reinitialize downsample layers, code assuming normal conv layers will not have these characteristics
+                    nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
+                    if m.bias is not None:
+                        nn.init.constant_(m.bias, 0)
+                else:
+                    print('Not initializing')
+            elif isinstance(m, nn.BatchNorm2d):
+                nn.init.constant_(m.weight, 1)
+                nn.init.constant_(m.bias, 0)
+            elif isinstance(m, nn.Linear):
+                nn.init.normal_(m.weight, 0, 0.01)
 
     def forward(self, x):
         output = self.features(x)
@@ -48,18 +67,32 @@ def make_layers(cfg, batch_norm=True, attention_module=None):
         else:
             m_name = attention_module.get_module_name()
 
-    for l in cfg:
-        if l == 'M':
-            layers += [nn.MaxPool2d(kernel_size=2, stride=2)]
-            continue
+        if m_name == "wa":
+            for l in cfg:
+                if l == 'M':
+                    layers += [attention_module()]
+                    continue
 
-        layers += [nn.Conv2d(input_channel, l, kernel_size=3, padding=1)]
+                layers += [nn.Conv2d(input_channel, l, kernel_size=3, padding=1)]
 
-        if batch_norm:
-            layers += [nn.BatchNorm2d(l)]
+                if batch_norm:
+                    layers += [nn.BatchNorm2d(l)]
 
-        layers += [nn.ReLU(inplace=True)]
-        input_channel = l
+                layers += [nn.ReLU(inplace=True)]
+                input_channel = l
+    else:
+        for l in cfg:
+            if l == 'M':
+                layers += [nn.MaxPool2d(kernel_size=2, stride=2)]
+                continue
+
+            layers += [nn.Conv2d(input_channel, l, kernel_size=3, padding=1)]
+
+            if batch_norm:
+                layers += [nn.BatchNorm2d(l)]
+
+            layers += [nn.ReLU(inplace=True)]
+            input_channel = l
 
     return nn.Sequential(*layers)
 
