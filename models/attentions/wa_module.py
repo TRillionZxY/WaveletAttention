@@ -33,7 +33,7 @@ class wad_module(nn.Module):
     X --> output
     '''
     def __init__(self, wavename='haar'):
-        super(wa_module, self).__init__()
+        super(wad_module, self).__init__()
         self.dwt = DWT_2D(wavename=wavename)
         self.softmax = nn.Softmax2d()
 
