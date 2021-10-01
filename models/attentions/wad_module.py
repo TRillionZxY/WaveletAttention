@@ -4,19 +4,20 @@ import torch.nn as nn
 from DWT import DWT_2D
 
 
-class wa_module(nn.Module):
+
+class wad_module(nn.Module):
     '''
-    This module is used in networks that require a shortcut.
-    X --> output, LL(shortcut)
+    This module is used in directly connected networks.
+    X --> output
     '''
     def __init__(self, wavename='haar'):
-        super(wa_module, self).__init__()
+        super(wad_module, self).__init__()
         self.dwt = DWT_2D(wavename=wavename)
         self.softmax = nn.Softmax2d()
 
     @staticmethod
     def get_module_name():
-        return "wa"
+        return "wad"
 
     def forward(self, input):
         LL, LH, HL, _ = self.dwt(input)
@@ -25,4 +26,4 @@ class wa_module(nn.Module):
         x_high = self.softmax(torch.add(LH, HL))
         AttMap = torch.mul(output, x_high)
         output = torch.add(output, AttMap)
-        return output, LL
+        return output
