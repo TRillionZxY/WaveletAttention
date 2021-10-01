@@ -27,7 +27,7 @@ class wa_module(nn.Module):
         output = torch.add(output, AttMap)
         return output, LL
 
-class wa_direct_module(nn.Module):
+class wad_module(nn.Module):
     '''
     This module is used in directly connected networks.
     X --> output
