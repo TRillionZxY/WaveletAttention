@@ -67,7 +67,7 @@ def make_layers(cfg, batch_norm=True, attention_module=None):
         else:
             m_name = attention_module.get_module_name()
 
-        if m_name == "wa":
+        if m_name == "wad":
             for l in cfg:
                 if l == 'M':
                     layers += [attention_module()]

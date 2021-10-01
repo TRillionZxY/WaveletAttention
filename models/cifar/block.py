@@ -179,10 +179,10 @@ class InvertedResidualBlock(nn.Module):
             else:
                 m_name = attention_module.get_module_name()
 
-            if m_name == "simam":
+            if m_name == "wad":
                 self.conv2 = nn.Sequential(
-                    self.conv2,
-                    attention_module(planes)
+                    attention_module(),
+                    nn.Conv2d(planes, planes, kernel_size=3, stride=1, padding=1, groups=planes, bias=False)
                 )
             else:
                 self.bn3 = nn.Sequential(
