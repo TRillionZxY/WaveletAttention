@@ -80,6 +80,19 @@ def make_layers(cfg, batch_norm=True, attention_module=None):
 
                 layers += [nn.ReLU(inplace=True)]
                 input_channel = l
+        else:
+            for l in cfg:
+                if l == 'M':
+                    layers += [nn.MaxPool2d(kernel_size=2, stride=2)]
+                    continue
+
+                layers += [nn.Conv2d(input_channel, l, kernel_size=3, padding=1)]
+
+                if batch_norm:
+                    layers += [nn.BatchNorm2d(l), attention_module(l)]
+
+                layers += [nn.ReLU(inplace=True)]
+                input_channel = l
     else:
         for l in cfg:
             if l == 'M':
