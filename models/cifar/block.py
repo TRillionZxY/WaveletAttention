@@ -163,6 +163,8 @@ class InvertedResidualBlock(nn.Module):
         super(InvertedResidualBlock, self).__init__()
         self.stride = stride
 
+        self.flag = False
+
         planes = expansion * in_planes
         self.conv1 = conv1x1(in_planes, planes, stride=1)
         self.bn1 = nn.BatchNorm2d(planes)
@@ -179,12 +181,13 @@ class InvertedResidualBlock(nn.Module):
             else:
                 m_name = attention_module.get_module_name()
 
-            if m_name == "simam":
-                self.conv2 = nn.Sequential(
-                    self.conv2,
-                    attention_module(planes)
+            if m_name == "wad" and stride == 2:
+                self.flag = True
+                self.wa = nn.Sequential(
+                    attention_module(),
+                    nn.Conv2d(planes, planes, kernel_size=3, stride=1, padding=1, groups=planes, bias=False)
                 )
-            else:
+            elif m_name != "wad":
                 self.bn3 = nn.Sequential(
                     self.bn3,
                     attention_module(out_planes)
@@ -202,7 +205,11 @@ class InvertedResidualBlock(nn.Module):
         out = self.bn1(out)
         out = self.relu(out)
         
-        out = self.conv2(out)
+        if self.flag:
+            out = self.wa(out)
+        else:
+            out = self.conv2(out)
+        
         out = self.bn2(out)
         out = self.relu(out)
 
