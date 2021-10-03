@@ -1,5 +1,8 @@
 # Wavelet Attention CNNs
 
+## Abstract
+When Convolutional neural networks (CNN) learns visual features, some key feature details maybe lost in propagation of CNN layers. Generally, attention mechanism is a common solution for CNN to improve the ability of capturing such feature details. However, when CNN uses attention mechanism to capture feature details, it affects the propagation efficiency of main feature information to some extent. In this work, we investigate Discrete Wavelet Transform (DWT) in frequency domain, and design a new Wavelet Attention (WA) mechanism to only implement attention in the high-frequency domain. By embedding WA into CNNs, we propose a novel Wavelet-Attentition CNN (WA-CNN) for effectively learning the visual features of images. Specifically, WA-CNN decomposes the feature maps into low-frequency and high-frequency components for storing the main  information,  as  well  as  the  detail  and  noise  information,  respectively. And then, WA-CNN leverages the WA mechanism to capture the detail information in high-frequency domain with different attention factors, while not affecting the propagation efficiency of feature main information in low-frequency domain. Finally, experimental results on CIFAR-10 and CIFAR-100 datasets show that the proposed WA-CNN achieves the competitive performance in terms of image classification task, which illustrates effectiveness of WA-CNN for learning visual features of images.
+
 ## Our environments and toolkits
 * OS: Ubuntu 18.04.5  
 * Python: 3.8  
@@ -10,9 +13,22 @@
 * [torchinfo](https://github.com/TylerYep/torchinfo)  
 * [thop](https://github.com/Lyken17/pytorch-OpCounter)(Optional)  
 
+## Usage
+### Installtion
+```shell
+#pip
+pip install PyWavelets
+pip install torchinfo
 
-## Abstract
-When Convolutional neural networks (CNNs) learns visual features, the feature details are lost to a certain extent in propagation. Attention mechanism is a common solution for CNNs to improve the ability of capturing feature details. However, while CNNs use attention mechanism to capture detailed feature information, it affects the transmission of feature main information, but not affects the destruction of features by down-sampling operation. The Non-Local Block presents a pioneering approach for capturing the global context features, while it has high training costs. The Non-Local Block can be abstracted as a general framework for global context modeling. Within the general framework, we design a new attention mechanism based on Discrete Wavelet Transform (DWT), which is the Wavelet Attention Block. In our method, feature maps are decomposed into low-frequency and high-frequency components through DWT during the down-sampling. The low-frequency components retain the main information of feature maps, and the high-frequency components contain the details and noise information. Then, our method captures the global context features through the detail information in high-frequency components, which does not affect the main information transmission in the low-frequency components. Moreover, we propose the Wavelet Attention CNNs, which enhance the feature learning ability of CNNs for image classification. Our experimental results on CIFAR verify the effectiveness of the Wavelet Attention CNNs.
+#conda
+conda install -c conda-forge pywavelets
+conda install -c conda-forge torchinfo
+```
+### Training
+```shell
+bash train.sh
+```
+
 ## Experiments
 
 ## Contact
