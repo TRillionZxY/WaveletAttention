@@ -10,7 +10,7 @@
 * [torchinfo](https://github.com/TylerYep/torchinfo)  
 * [thop](https://github.com/Lyken17/pytorch-OpCounter)(Optional)  
 
-## Prepartion
+## Usage
 ### Installtion
 ```shell
 #pip
@@ -20,6 +20,10 @@ pip install torchinfo
 #conda
 conda install -c conda-forge pywavelets
 conda install -c conda-forge torchinfo
+```
+### Training
+```shell
+bash train.sh
 ```
 
 ## Abstract
