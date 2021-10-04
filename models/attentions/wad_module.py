@@ -1,4 +1,3 @@
-from cifar_main import main
 import torch
 import torch.nn as nn
 from DWT import DWT_2D
