@@ -7,6 +7,8 @@ class wa_module(nn.Module):
     '''
     This module is used in networks that require a shortcut.
     X --> output, LL(shortcut)
+    Args:
+        wavename: Wavelet family
     '''
     def __init__(self, wavename='haar'):
         super(wa_module, self).__init__()

@@ -8,6 +8,8 @@ class wad_module(nn.Module):
     '''
     This module is used in directly connected networks.
     X --> output
+    Args:
+        wavename: Wavelet family
     '''
     def __init__(self, wavename='haar'):
         super(wad_module, self).__init__()

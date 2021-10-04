@@ -40,6 +40,9 @@ def create_net(args):
     if args.attention_type == "se" or args.attention_type == "cbam":
         attention_module = functools.partial(
             attention_module, reduction=float(args.attention_param))
+    elif args.attention_type == "eca":
+        attention_module = functools.partial(
+            attention_module, k_size=float(args.attention_param))
     elif args.attention_type == "wa":
         attention_module = functools.partial(
             attention_module, wavename=args.attention_param)
