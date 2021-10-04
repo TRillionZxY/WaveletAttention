@@ -5,7 +5,6 @@
 """
 '''VGG11/13/16/19 in Pytorch.'''
 import functools
-import torch
 import torch.nn as nn
 
 cfg = {
