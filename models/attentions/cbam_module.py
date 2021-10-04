@@ -83,7 +83,7 @@ class SpatialGate(nn.Module):
 class cbam_module(nn.Module):
     """
     Args:
-        gate_channels: Number of channels of the input feature map
+        gate_channels: Number of channels of the output feature map
         reduction: Reduction ratio(4/8/16/32)
     """
     def __init__(self, gate_channels, reduction=16, pool_types=['avg', 'max'], no_spatial=False):

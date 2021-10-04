@@ -42,7 +42,7 @@ def create_net(args):
             attention_module, reduction=float(args.attention_param))
     elif args.attention_type == "eca":
         attention_module = functools.partial(
-            attention_module, k_size=float(args.attention_param))
+            attention_module, k_size=int(args.attention_param))
     elif args.attention_type == "wa":
         attention_module = functools.partial(
             attention_module, wavename=args.attention_param)

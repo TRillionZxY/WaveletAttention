@@ -3,7 +3,7 @@ from torch import nn
 class se_module(nn.Module):
     """
     Args:
-        channel: Number of channels of the input feature map
+        channel: Number of channels of the output feature map
         reduction: Reduction ratio(4/8/16/32)
     """
     def __init__(self, channel, reduction=16):
