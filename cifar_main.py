@@ -16,7 +16,8 @@ from torchvision import datasets, transforms
 from torchinfo import summary
 # models
 # from thop import profile
-from utils.util import AverageMeter, ProgressMeter, save_checkpoint, load_checkpoint, accuracy, parse_gpus
+from utils.util import AverageMeter, ProgressMeter, accuracy, parse_gpus
+from utils.checkpoint import save_checkpoint, load_checkpoint
 from models.cifar import create_net
 
 

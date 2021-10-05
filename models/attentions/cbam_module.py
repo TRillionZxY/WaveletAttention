@@ -1,5 +1,4 @@
 import torch
-import math
 import torch.nn as nn
 import torch.nn.functional as F
 
@@ -82,6 +81,11 @@ class SpatialGate(nn.Module):
         return x * scale
 
 class cbam_module(nn.Module):
+    """
+    Args:
+        gate_channels: Number of channels of the output feature map
+        reduction: Reduction ratio(4/8/16/32)
+    """
     def __init__(self, gate_channels, reduction=16, pool_types=['avg', 'max'], no_spatial=False):
         super(cbam_module, self).__init__()
         self.ChannelGate = ChannelGate(gate_channels, reduction, pool_types)

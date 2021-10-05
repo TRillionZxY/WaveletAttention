@@ -1,4 +1,3 @@
-from cifar_main import main
 import torch
 import torch.nn as nn
 from DWT import DWT_2D
@@ -9,6 +8,8 @@ class wad_module(nn.Module):
     '''
     This module is used in directly connected networks.
     X --> output
+    Args:
+        wavename: Wavelet family
     '''
     def __init__(self, wavename='haar'):
         super(wad_module, self).__init__()
