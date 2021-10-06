@@ -42,6 +42,7 @@ elif args.dataset == "cifar100":
     args.num_class = 100
 
 save_path = "./photograph/"
+args.img = save_path + args.img
 
 vpath = args.dataset
 vpath += "-" + args.arch
@@ -57,10 +58,11 @@ if not os.path.isdir(save_path):
 
 args.resume += vpath
 args.resume += "-nfilters16"
+args.resume = os.path.join(args.resume, 'model_best_checkpoint.pth.tar')
 
 net = create_net(args)
 net.cuda()
-net, _, _, _ = load_checkpoint(os.path.join(args.resume, 'model_best_checkpoint.pth.tar'), net)
+net, _, _, _ = load_checkpoint(args, net)
 net.eval()
 
 with open(os.path.join(save_path, "module_name.txt"), mode="wt") as f:
@@ -70,12 +72,10 @@ f.close()
 
 #############################
 # Enter the model module and number to visualize
-visual = FM_visualize(net.layer1, 1)
+visual = FM_visualize(net.layer2, 0)
 # Enter the last channel of the model layer to visualize
 out_channal = 16
 #############################
-
-args.img = save_path + args.img
 
 img = Image.open(args.img)
 trans = transforms.ToTensor()
@@ -84,9 +84,9 @@ img = trans(img).unsqueeze(0).cuda()
 net(img)
 activations = visual.features
 
-rows = int(out_channal/8)
-columns = 8
-fig, axes = plt.subplots(rows,columns,figsize=(40, 40))
+rows = int(out_channal/4)
+columns = 4
+fig, axes = plt.subplots(rows, columns, figsize=(40, 40))
 
 for row in range(rows):
     for column in range(columns):
@@ -95,4 +95,4 @@ for row in range(rows):
         axis.get_yaxis().set_ticks([])
         axis.imshow(activations[0][row*8+column])
 
-plt.savefig(os.path.join(save_path, 'fmv_result.jpg'))
+plt.savefig(os.path.join(save_path, 'fmv_result.jpg'), dpi=1000)
