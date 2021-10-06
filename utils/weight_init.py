@@ -1,3 +1,7 @@
+'''
+Some initialization methods
+REF: mmcv
+'''
 import torch.nn as nn
 
 def constant_init(module, val, bias=0):

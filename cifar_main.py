@@ -197,9 +197,10 @@ def main(args):
     args.log_file.write("Attention Module - " + args.attention_type + "\n")
     args.log_file.write("--------------------------------------------------" + "\n")
 
+    net.to(args.device)
+
     # multi-GPUs
-    if len(args.gpu_ids) > 0:
-        net.to(args.gpu_ids[0])
+    if len(args.gpu_ids) > 1:
         net = torch.nn.DataParallel(net, args.gpu_ids)
 
     with open(os.path.join(args.ckpt, "structure.txt"), mode="wt") as f:

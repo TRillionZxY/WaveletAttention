@@ -1,6 +1,6 @@
 '''
-Reference:
-https://github.com/cjf8899/FeatureMap_Visualize_Pytorch.git
+Visualize FeatureMap
+REF: https://github.com/cjf8899/FeatureMap_Visualize_Pytorch.git
 '''
 from PIL import Image
 from torchvision import transforms

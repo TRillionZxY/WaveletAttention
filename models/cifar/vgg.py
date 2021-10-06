@@ -1,9 +1,7 @@
-"""vgg in pytorch
-[1] Karen Simonyan, Andrew Zisserman
-    Very Deep Convolutional Networks for Large-Scale Image Recognition.
-    https://arxiv.org/abs/1409.1556v6
 """
-'''VGG11/13/16/19 in Pytorch.'''
+VGG in PyTorch
+REF: Very Deep Convolutional Networks for Large-Scale Image Recognition.
+"""
 import functools
 import torch.nn as nn
 
