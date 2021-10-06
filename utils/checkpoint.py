@@ -1,22 +1,13 @@
 import os
-import shutil
-
 import torch
 
 def save_checkpoint(state, is_best, epoch, save_path='./'):
     print("=> saving checkpoint '{}'".format(epoch))
-    torch.save(state, os.path.join(save_path, 'checkpoint.pth.tar'))
-    if(epoch % 10 == 0):
+    if(epoch % 40 == 0):
         torch.save(state, os.path.join(
             save_path, 'checkpoint_%03d.pth.tar' % epoch))
-    if is_best:
-        if epoch >= 90:
-            shutil.copyfile(os.path.join(save_path, 'checkpoint.pth.tar'),
-                            os.path.join(save_path, 'model_best_in_100_epochs.pth.tar'))
-        else:
-            shutil.copyfile(os.path.join(save_path, 'checkpoint.pth.tar'),
-                            os.path.join(save_path, 'model_best_in_090_epochs.pth.tar'))
-
+    if is_best and (epoch >= 100):
+        torch.save(state, os.path.join(save_path, 'model_best_checkpoint.pth.tar'))
 
 def load_checkpoint(args, model, optimizer=None, verbose=True):
 

@@ -8,7 +8,6 @@ import argparse
 # numerical libs
 import random
 import torch
-import torch.nn as nn
 import torch.optim as optim
 import torch.backends.cudnn as cudnn
 import torch.nn.functional as F
@@ -184,14 +183,16 @@ def main(args):
         start_epoch = 0
         best_acc = 0
 
+    ###########################################
+    # thop
     # x = torch.randn(1, 3, 32, 32)
     # flops, params = profile(net, inputs=(x,))
-
     # print("Number of params: %.6fM" % (params / 1e6))
     # print("Number of FLOPs: %.6fG" % (flops / 1e9))
-
     # args.log_file.write("Params - %.6fM" % (params / 1e6) + "\n")
     # args.log_file.write("FLOPs - %.6fG" % (flops / 1e9) + "\n")
+    ###########################################
+
     args.log_file.write("Network - " + args.arch + "\n")
     args.log_file.write("Attention Module - " + args.attention_type + "\n")
     args.log_file.write("--------------------------------------------------" + "\n")
@@ -215,13 +216,13 @@ def main(args):
         is_best = epoch_acc > best_acc
         best_acc = max(epoch_acc, best_acc)
 
-        # save_checkpoint({
-        #     "epoch": epoch + 1,
-        #     "arch": args.arch,
-        #     "state_dict": net.module.cpu().state_dict(),
-        #     "best_acc": best_acc,
-        #     "optimizer": optimizer.state_dict(),
-        # }, is_best, epoch, save_path=args.ckpt)
+        save_checkpoint({
+            "epoch": epoch + 1,
+            "arch": args.arch,
+            "state_dict": net.module.cpu().state_dict(),
+            "best_acc": best_acc,
+            "optimizer": optimizer.state_dict(),
+        }, is_best, epoch, save_path=args.ckpt)
 
         net.to(args.device)
         
@@ -297,9 +298,6 @@ if __name__ == "__main__":
     if args.attention_type.lower() != "none":
         args.ckpt += "-param" + str(args.attention_param)
     args.ckpt += "-nfilters" + str(args.num_base_filters)
-    args.ckpt += "-expansion" + str(args.expansion)
-    args.ckpt += "-baselr" + str(args.base_lr)
-    args.ckpt += "-rseed" + str(args.seed)
     for key, val in vars(args).items():
         print("{:16} {}".format(key, val))
 
