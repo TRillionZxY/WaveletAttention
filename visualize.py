@@ -61,7 +61,7 @@ if not os.path.isdir(save_path):
     os.makedirs(save_path)
 
 args.resume += vpath
-args.resume += "-nfilters16"
+args.resume += "-nfilters8"
 args.resume = os.path.join(args.resume, 'model_best_checkpoint.pth.tar')
 
 net = create_net(args)

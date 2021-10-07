@@ -241,8 +241,8 @@ if __name__ == "__main__":
     # Model settings
     parser.add_argument("--arch", type=str, default="resnet18",
                         help="network architecture (default: resnet18)")
-    parser.add_argument("--num_base_filters", type=int, default=16,
-                        help="network base filer numbers (default: 16)")
+    parser.add_argument("--num_base_filters", type=int, default=8,
+                        help="network base filer numbers (default: 8)")
     parser.add_argument("--expansion", type=float, default=1,
                         help="expansion factor for the mid-layer in resnet-like")
     parser.add_argument("--block_type", type=str, default="basic",
