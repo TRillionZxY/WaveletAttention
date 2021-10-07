@@ -98,14 +98,14 @@ class BottleNect(nn.Module):
             else:
                 m_name = attention_module.get_module_name()
 
-            if  m_name == "wa" and stride != 1 and in_channels == 16:
+            if  m_name == "wa" and stride != 1:
                 self.flag = True
                 self.wa = attention_module()
-                self.conv2 = conv3x3(in_channels, out_channels, stride=1)
+                self.conv2 = conv3x3(out_channels, out_channels, stride=1)
             else:
-                self.conv2 = conv3x3(in_channels, out_channels, stride=stride)
+                self.conv2 = conv3x3(out_channels, out_channels, stride=stride)
         else:
-            self.conv2 = conv3x3(in_channels, out_channels, stride=stride)
+            self.conv2 = conv3x3(out_channels, out_channels, stride=stride)
 
         self.conv1 = conv1x1(in_channels, out_channels, stride=1)
         self.bn1 = nn.BatchNorm2d(out_channels)
@@ -123,13 +123,13 @@ class BottleNect(nn.Module):
                 if stride != 1 or in_channels != out_channels * self.EXPANSION:
                     self.shortcut = nn.Sequential(conv1x1(in_channels, out_channels * self.EXPANSION, stride=stride),
                             nn.BatchNorm2d(out_channels * self.EXPANSION))
-            elif m_name == "wa" and in_channels == 16:
+            elif m_name == "wa":
                 if stride != 1 or in_channels != out_channels * self.EXPANSION:
                     self.shortcut = nn.Sequential(conv1x1(in_channels, out_channels * self.EXPANSION, stride=1), 
                             nn.BatchNorm2d(out_channels * self.EXPANSION))
             else:
                 if stride != 1 or in_channels != out_channels * self.EXPANSION:
-                    self.shortcut = nn.Sequential(conv1x1(in_channels, out_channels * self.EXPANSION, stride=1),
+                    self.shortcut = nn.Sequential(conv1x1(in_channels, out_channels * self.EXPANSION, stride=stride),
                             nn.BatchNorm2d(out_channels * self.EXPANSION))
         else:
             if stride != 1 or in_channels != out_channels * self.EXPANSION:
