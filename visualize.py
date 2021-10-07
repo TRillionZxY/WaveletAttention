@@ -82,7 +82,7 @@ out_channal = 16
 #############################
 
 img = Image.open(args.img)
-trans = transforms.ToTensor()
+trans = transforms.Compose([transforms.Resize([256, 256]), transforms.ToTensor()])
 img = trans(img).unsqueeze(0).cuda()
 
 net(img)
@@ -99,4 +99,4 @@ for row in range(rows):
         axis.get_yaxis().set_ticks([])
         axis.imshow(activations[0][row*8+column])
 
-plt.savefig(os.path.join(save_path, 'fmv_result.jpg'), dpi=1000)
+plt.savefig(os.path.join(save_path, 'fmv_result.jpg'))
