@@ -81,8 +81,8 @@ visual = FM_visualize(net.layer2, 0)
 out_channal = 16
 #############################
 
-img = Image.open(args.img)
 trans = transforms.Compose([transforms.Resize([256, 256]), transforms.ToTensor()])
+img = Image.open(args.img)
 img = trans(img).unsqueeze(0).cuda()
 
 net(img)
