@@ -145,7 +145,6 @@ def main(args, ngpus_per_node):
     # Data Loading
     print("Building dataset: Caltech256")
 
-    args.num_class = 256
     train_folder, val_folder = get_folders(args.dataset_dir)
 
     if args.distributed:

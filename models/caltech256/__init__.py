@@ -26,9 +26,6 @@ def create_net(args):
         attention_module = functools.partial(
             attention_module, wavename=args.attention_param)
 
-    net = model_dict[args.arch.lower()](
-        num_class=args.num_class,
-        attention_module=attention_module
-    )
+    net = model_dict[args.arch.lower()](attention_module=attention_module)
 
     return net

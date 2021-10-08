@@ -33,7 +33,7 @@ def get_folders(dataset_dir):
         return image
     
     train_transform = transforms.Compose([
-        transforms.Scale(256, Image.LANCZOS),
+        transforms.Resize(256, Image.LANCZOS),
         transforms.CenterCrop(224),
         transforms.RandomHorizontalFlip(),
         transforms.Lambda(enhance),
@@ -45,7 +45,7 @@ def get_folders(dataset_dir):
     ])
     
     val_transform = transforms.Compose([
-        transforms.Scale(256, Image.LANCZOS),
+        transforms.Resize(256, Image.LANCZOS),
         transforms.CenterCrop(224),
         transforms.ToTensor(),
         transforms.Normalize(
