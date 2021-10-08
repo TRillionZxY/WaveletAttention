@@ -197,7 +197,7 @@ def main(args):
     args.log_file.write("Attention Module - " + args.attention_type + "\n")
     args.log_file.write("--------------------------------------------------" + "\n")
 
-    net.to(args.device)
+    net.to(args.gpu_ids[0])
 
     # multi-GPUs
     if len(args.gpu_ids) > 1:
@@ -224,8 +224,6 @@ def main(args):
             "best_acc": best_acc,
             "optimizer": optimizer.state_dict(),
         }, is_best, epoch, save_path=args.ckpt)
-
-        net.to(args.device)
         
         args.log_file.write("--------------------------------------------------" + "\n")
 
@@ -248,9 +246,9 @@ if __name__ == "__main__":
     parser.add_argument("--block_type", type=str, default="basic",
                         help="building block for network (possible choices basic|bottlenect|ivrd|vgg")
     parser.add_argument("--attention_type", type=str, default="none",
-                        help="attention type in building block (possible choices none|se|cbam|wa)")
+                        help="attention type in building block (possible choices none|se|cbam|gc|eca|wa)")
     parser.add_argument("--attention_param", type=str, default="4",
-                        help="attention parameter (reduction in CBAM and SE, wavename in wavelet)")
+                        help="attention parameter (reduction in (cbam/se/gc), kernel_size in eca(set 3), wavename in wa)")
 
     # Dataset settings
     parser.add_argument("--dataset", type=str, default="cifar10",
