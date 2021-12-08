@@ -41,8 +41,9 @@ normlizer = transforms.Normalize(
     (0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))
 
 transform=transforms.Compose([
-            transforms.ToTensor(),
-            normlizer])
+        transforms.Resize((32, 32)),
+        transforms.ToTensor(),
+        normlizer])
 
 save_path = "./photograph/"
 args.img = save_path + args.img
@@ -52,7 +53,6 @@ vpath += "-" + args.arch
 vpath += "-" + args.block_type
 if args.attention_type.lower() != "none":
     vpath += "-" + args.attention_type
-if args.attention_type.lower() != "none":
     vpath += "-param" + str(args.attention_param)
 
 save_path += vpath
@@ -66,14 +66,17 @@ args.resume = os.path.join(args.resume, 'model_best_checkpoint.pth.tar')
 net = create_net(args)
 net.cuda()
 net, _, _, _ = load_checkpoint(args, net)
+net.eval()
 
 img = Image.open(args.img)
-img = transform(img).unsqueeze(0).cuda()
+img_T = transform(img).unsqueeze(0).cuda()
 
-output = net(img)
-predict_value, predict_idx = torch.max(output, 1)  # 求指定维度的最大值，返回最大值以及索引
+output = net(img_T)
+# 求指定维度的最大值，返回最大值以及索引
+predict_value, predict_idx = torch.max(output, 1)  
 
-print(predict_value)
+print('predict_value: {:.3f}'.format(predict_value.data))
+print(CFAIR10_names[predict_idx])
 
 plt.figure()
 plt.imshow(np.array(img))
