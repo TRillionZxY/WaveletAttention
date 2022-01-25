@@ -1,7 +1,9 @@
-# Wavelet-Attention CNNs
+# Wavelet-Attention CNN for Image Classification
+
+[Paper](https://arxiv.org/abs/2201.09271)
 
 ## Abstract
-When Convolutional neural networks (CNN) learns visual features, some key feature details maybe lost in propagation of CNN layers. Generally, attention mechanism is a common solution for CNN to improve the ability of capturing such feature details. However, when CNN uses attention mechanism to capture feature details, it affects the propagation efficiency of main feature information to some extent. In this work, we investigate Discrete Wavelet Transform (DWT) in frequency domain, and design a new Wavelet Attention (WA) mechanism to only implement attention in the high-frequency domain. By embedding WA into CNNs, we propose a novel Wavelet-Attentition CNN (WA-CNN) for effectively learning the visual features of images. Specifically, WA-CNN decomposes the feature maps into low-frequency and high-frequency components for storing the main  information,  as  well  as  the  detail  and  noise  information,  respectively. And then, WA-CNN leverages the WA mechanism to capture the detail information in high-frequency domain with different attention factors, while not affecting the propagation efficiency of feature main information in low-frequency domain. Finally, experimental results on CIFAR-10 and CIFAR-100 datasets show that the proposed WA-CNN achieves the competitive performance in terms of image classification task, which illustrates effectiveness of WA-CNN for learning visual features of images.
+The feature learning methods based on convolutional neural network (CNN) have successfully produced tremendous achievements in image classification tasks. However, the inherent noise and some other factors may weaken the effectiveness of the convolutional feature statistics. In this paper, we investigate Discrete Wavelet Transform (DWT) in the frequency domain and design a new Wavelet-Attention (WA) block to only implement attention in the high-frequency domain. Based on this, we propose a Wavelet-Attention convolutional neural network (WA-CNN) for image classification. Specifically, WA-CNN decomposes the feature maps into low-frequency and high-frequency components for storing the structures of the basic objects, as well as the detailed information and noise, respectively. Then, the WA block is leveraged to capture the detailed information in the high-frequency domain with different attention factors but reserves the basic object structures in the low-frequency domain. Experimental results on CIFAR-10 and CIFAR-100 datasets show that our proposed WA-CNN achieves significant improvements in classification accuracy compared to other related networks. Specifically, based on MobileNetV2 backbones, WA-CNN achieves 1.26% Top-1 accuracy improvement on the CIFAR-10 benchmark and 1.54% Top-1 accuracy improvement on the CIFAR-100 benchmark.
 
 ## Our environments and toolkits
 * OS: Ubuntu 18.04.5  
@@ -28,8 +30,6 @@ conda install -c conda-forge torchinfo
 ```shell
 bash train.sh
 ```
-
-## Experiments
 
 ## Contact
 If you have any suggestion or question, you can contact us by: <iezhaoxy@163.com>.  
